@@ -1,10 +1,11 @@
 const express = require("express");
 const app = express();
-const port = 3000;
+const port = 5000;
 const dotenv = require("dotenv");
+dotenv.config();
+const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
-const mongoose = require("mongoose");
 const { auth } = require("./middleware/auth");
 const { User } = require("./models/User");
 
@@ -12,7 +13,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-dotenv.config();
 mongoose
   .connect(process.env.MONGO_URL, {
     useNewUrlParser: true,
@@ -82,6 +82,10 @@ app.get("/api/users/logout", auth, (req, res) => {
       success: true,
     });
   });
+});
+
+app.get("/api/hello", (req, res) => {
+  res.send("hi~~");
 });
 
 app.listen(port, () =>
